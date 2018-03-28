@@ -1,6 +1,6 @@
 # UCF Composition 2 Pure Data resources
 
-I will upload start/finish files as they are relevant to class activities. You can download the files ending in .pd above by right-clicking and selecting "Save As". Files will be numbered based on class meetings. 
+I will upload start/finish files as they are relevant to class activities. You can download the files by clicking "Clone or download" > "Download ZIP".  
 
 ## Resources
 
