@@ -11,9 +11,9 @@ I will upload start/finish files as they are relevant to class activities. You c
 <ul>
 {% for patch in site.static_files %}
     {% if patch.path contains '.pd' %}
-        <li>{{ site.baseurl }}{{ patch.path }}</li>
+        <li><a href="{{ site.baseurl }}{{ patch.path }}">{{ patch.name}}</a></li>
     {% endif %}
 {% endfor %}
 </ul>
 
-test
+test2
