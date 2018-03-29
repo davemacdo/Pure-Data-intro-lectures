@@ -10,8 +10,10 @@ I will upload start/finish files as they are relevant to class activities. You c
 
 <ul>
 {% for patch in site.static_files %}
-    {% if patch.path contains 'examples/' %}
-        <li>{{ site.baseurl }}{{ image.path }}</li>
+    {% if patch.path contains '.pd' %}
+        <li>{{ site.baseurl }}{{ patch.path }}</li>
     {% endif %}
 {% endfor %}
 </ul>
+
+test
