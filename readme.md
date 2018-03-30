@@ -13,9 +13,17 @@ I will upload example start/end files as they are relevant to class activities. 
 These are numbered in order of the lessons. Files with "e" after the number are from the _end_ of the lesson. 
 
 <ul>
-{% for patch in site.static_files %}
-    {% if patch.path contains '.pd' %}
-        <li><a href="{{ site.baseurl }}{{ patch.path }}">{{ patch.name}}</a></li>
+{% for file in site.static_files %}
+    {% if file.path contains '.pd' %}
+        <li><a href="{{ site.baseurl }}{{ file.path }}">{{ file.name}}</a></li>
     {% endif %}
 {% endfor %}
 </ul>
+
+## Markdown version of patch list
+
+{% for file in site.static_files %}
+    {% if file.path contains '.pd' %}
+        [{{ file.name }}]({{ site.baseurl }}{{ file.path }})
+    {% endif %}
+{% endfor %}
