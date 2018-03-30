@@ -23,7 +23,7 @@ These are numbered in order of the lessons. Files with "e" after the number are 
 ## Markdown version of patch list
 
 {% for file in site.static_files %}
-    {% if file.path contains '.pd' %}
-        [{{ file.name }}]({{ site.baseurl }}{{ file.path }})
-    {% endif %}
+	{% if file.path contains '.pd' %}
+- [{{ file.name }}]({{ site.baseurl }}{{ file.path }})
+	{% endif %}
 {% endfor %}
