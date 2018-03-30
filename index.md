@@ -1,4 +1,6 @@
-# UCF Composition 2 Pure Data resources
+---
+title: UCF Composition 2 Pure Data resources
+---
 
 I will upload example start/end files as they are relevant to class activities. They will be listed below under "Example Patches".  
 
