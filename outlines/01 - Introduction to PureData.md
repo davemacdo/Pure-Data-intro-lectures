@@ -1,5 +1,5 @@
 ---
-Title: 1. Introduction to Pure Data
+title: 1. Introduction to Pure Data
 ---
 
 # 01. Introduction to Pure Data
