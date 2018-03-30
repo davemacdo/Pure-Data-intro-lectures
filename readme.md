@@ -12,7 +12,7 @@ I will upload example start/end files as they are relevant to class activities. 
 
 {% for page in site.pages %}
 	{% if page.url contains 'outlines/' %}
-- {{page.url}}
+- [{{ page.title }}]({{ site.baseurl }}{{ page.url }})
 	{% endif %}
 {% endfor %}
 
