@@ -2,7 +2,7 @@
 title: 1. Introduction to Pure Data
 ---
 
-# 01. Introduction to Pure Data
+# {{page.title}}
 
 ## Download and install
 

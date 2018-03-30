@@ -2,7 +2,7 @@
 title: 2. Envelopes and Metro
 ---
 
-# 02. Envelopes and Metro
+# {{page.title}}
 
 New objects: line~, vline~, metro, random
 
