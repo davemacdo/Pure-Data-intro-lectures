@@ -19,7 +19,7 @@ I will upload example start/end files as they are relevant to class activities. 
 ## Example Patches
 
 {% for file in site.static_files %}
-	{% if filjeke.path contains '.pd' and file.path contains 'examples/' %}
+	{% if file.path contains '.pd' and file.path contains 'examples/' %}
 - [{{ file.name }}]({{ site.baseurl }}{{ file.path }})
 	{% endif %}
 {% endfor %}
