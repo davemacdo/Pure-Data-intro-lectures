@@ -1,3 +1,7 @@
+---
+title: 2. Envelopes and Metro
+---
+
 # 02. Envelopes and Metro
 
 New objects: line~, vline~, metro, random
