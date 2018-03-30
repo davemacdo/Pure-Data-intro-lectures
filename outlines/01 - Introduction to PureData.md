@@ -1,3 +1,7 @@
+---
+Title: 1. Introduction to Pure Data
+---
+
 # 01. Introduction to Pure Data
 
 ## Download and install
