@@ -10,20 +10,8 @@ I will upload example start/end files as they are relevant to class activities. 
 
 ## Example Patches
 
-These are numbered in order of the lessons. Files with "e" after the number are from the _end_ of the lesson. 
-
-<ul>
 {% for file in site.static_files %}
-    {% if file.path contains '.pd' %}
-        <li><a href="{{ site.baseurl }}{{ file.path }}">{{ file.name}}</a></li>
-    {% endif %}
-{% endfor %}
-</ul>
-
-## Markdown version of patch list
-
-{% for file in site.static_files %}
-	{% if file.path contains '.pd' %}
+	{% if file.path contains '.pd' and file.path contains 'examples/'%}
 - [{{ file.name }}]({{ site.baseurl }}{{ file.path }})
 	{% endif %}
 {% endfor %}
