@@ -20,6 +20,19 @@ New objects: line~, vline~, metro, random
 	- inlets and outlets differ depending on object type
 	- objects that deal with audio signals get ~ at the end of the name
 
+## Help!
+
+- All computer programmers use documentation. 
+- Two ways to access: 
+	- Help > Browser
+		- start with the folder at the top, called "Pure Data"
+	- right-click an object > Help
+- All help files are Pd patches!
+	- open in perform mode
+	- test different inputs/outputs
+	- ⌘E to switch to edit mode
+	- copy-paste into your patch and edit
+
 ## Smoothing things out with line~
 
 - Note the noise artifacts from moving the amplitude slider
