@@ -4,7 +4,7 @@ title: 3. Repetition and Modulation
 
 # {{page.title}}
 
-New objects: `loadbang`, `float`, `mtof`, `counter`?
+New objects: `loadbang`, `float`, `%`, `select`, `mtof`, `counter`?
 
 ## Review previous patch
 
