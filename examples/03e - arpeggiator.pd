@@ -1,0 +1,69 @@
+#N canvas 0 23 1280 927 24;
+#X obj 116 561 osc~;
+#X obj 129 800 dac~;
+#X obj 129 736 *~;
+#X obj 420 408 vsl 30 256 0 1 0 0 empty empty VOL 0 -9 0 14 -261234
+-1 -1 9800 1;
+#X obj 294 705 line~;
+#X msg 294 663 \$1 50;
+#X obj 395 346 vline~;
+#X obj 129 663 *~;
+#X msg 395 304 1 20 \, 0 200 20;
+#X obj 187 136 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 328 70 hsl 256 30 60 480 0 0 empty empty Tempo -2 -8 0 14 -262144
+-1 -1 0 1;
+#X floatatom 296 343 0 0 0 0 - - -;
+#X obj 296 301 + 1;
+#X obj 191 302 float;
+#X obj 191 346 % 4;
+#X floatatom 248 385 5 0 0 0 - - -, f 5;
+#X obj 81 429 select 0 1 2 3;
+#X msg 60 477 60;
+#X obj 116 519 mtof;
+#X msg 116 477 64;
+#X msg 172 477 67;
+#X msg 235 477 72;
+#X floatatom 605 118 5 0 0 0 - - -, f 5;
+#X floatatom 606 183 5 0 0 0 - - -, f 5;
+#X obj 326 136 expr 60000/$f1;
+#X obj 325 19 loadbang;
+#X obj 187 164 metro;
+#X text 698 77 This slider controls the tempo. The expr object converts
+the tempo from BMP to milliseconds for metro.;
+#X text 645 313 The float and + objects keep a count of the total bangs
+from metro. The % object converts the count to modulo 4 \, so it repeats
+every four pulses. select routes messages that match its arguments.
+mtof converts MIDI note names to frequencies for osc~;
+#X connect 0 0 7 0;
+#X connect 2 0 1 0;
+#X connect 2 0 1 1;
+#X connect 3 0 5 0;
+#X connect 4 0 2 1;
+#X connect 5 0 4 0;
+#X connect 6 0 7 1;
+#X connect 7 0 2 0;
+#X connect 8 0 6 0;
+#X connect 9 0 26 0;
+#X connect 10 0 22 0;
+#X connect 10 0 24 0;
+#X connect 12 0 11 0;
+#X connect 12 0 13 1;
+#X connect 13 0 12 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X connect 14 0 16 0;
+#X connect 16 0 17 0;
+#X connect 16 1 19 0;
+#X connect 16 2 20 0;
+#X connect 16 3 21 0;
+#X connect 17 0 18 0;
+#X connect 18 0 0 0;
+#X connect 19 0 18 0;
+#X connect 20 0 18 0;
+#X connect 21 0 18 0;
+#X connect 24 0 23 0;
+#X connect 24 0 26 1;
+#X connect 25 0 10 0;
+#X connect 26 0 8 0;
+#X connect 26 0 13 0;
