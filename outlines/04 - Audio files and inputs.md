@@ -4,97 +4,109 @@ title: 4. Audio files and inputs
 
 # {{page.title}}
 
-New objects: `readsf~`, `key`, `soundfiler`, `tabread4~`, `adc~`,
+New objects: `readsf~`, `key`, `adc~`,
 
 Resource: [Freesound](https://freesound.org)
 
-Media: [bell cluster](../media/bells-cluster.wav) - [[source](https://freesound.org/people/InspectorJ/sounds/339822/)]
+Media: [bells-cluster.wav](../media/bells-cluster.wav) - [[source](https://freesound.org/people/InspectorJ/sounds/339822/)]
 
 ## Review previous patch
+
+- [arpeggiator-2.pd](../other%20patches/arpeggiator-2.pd)
+- Floats are weird to wrap your brain around at first, but they're very powerful.
+	- remember: **hot** inlets send outputs immediately, **cold** inlets take in data and wait
+- `expr` is handy for stringing arithmetic operations together
 
 ## Loading samples and playing them back
 
+- find the sound file you want (pick something small)
+	- record your own
+	- download something from freesound
+	- example above (bells-cluster.wav)
+- put the file in the same folder as your patch
+- `readsf~`
+	- simplest way to play back audio (note: very limited!)
+	- argument sets number of channels (default is mono!)
+	- output to `dac~` (can go through `*~` to adjust volume or create an envelope with `line~` or `vline~`)
+	- takes in messages for controls
+		- `open [filename]` (if giving a file name alone, it must be in the same folder as the patch, otherwise a relative or absolute path can work)
+		- give a second or two to load the file, then send a `1` message to start playback and a `0` to stop it
+		- _IMPORTANT! The sound file is cleared from memory after it is done or stopped. It must be reloaded each time._
+	- outputs a bang from the rightmost outlet (after the audio channels) when playback completes
+		- **demo:** handling "done" signals
+			- hook up a bang to the rightmost outlet for debugging
+			- use "done" outlet to reload the soundfile so it is ready the next time you need it
+- more powerful audio playback can be achieved with `soundfiler` and `tabread4~`. You can read about them in Help.
+
 ## Triggering events from the keyboard
+
+This one is pretty simple.
+
+- `key` watches keyboard inputs and sends a number for each "printing" key to the outlet each time the key is pressed.
+	- use a number box to figure out which is which
+	- use `select` to grab the numbers you want to have them do stuff like play back a sample or change notes in our arpeggiator from earlier
+- great for simple triggers (like "start the next section's audio track", "start a counter", "release a sustained sound", "toggle an audio effect on or off")
+- limitations
+	- holding a key can create different results based on system settings (recall the result of holding down a letter key while typing in a text document)
+	- operating system settings might change what the code numbers are, and people in other countries may have different keyboard layouts and numbers
+	- Pd must be the frontmost application to get these messages.
+- more powerful alternatives:
+	- MIDI
+		- go to **Help > Pure Data > 5.reference > midi-help.pd** for lots of useful examples of the midi objects in Pd
+	- OSC (`oscparse` receives and `oscformat` sends)
+		- more powerful, but a little trickier to use
+		- [TouchOSC](https://hexler.net/software/touchosc) (iOS and Android app) is a great way to build a touch interface for your patches. Possibly the best cheap ($5) tool in computer music.
 
 ## Microphone inputs
 
----
+Meet `adc~`, `dac~`'s backward cousin.
 
-## Review previous patch
+- check your audio settings first
+	- **Media > Test Audio and MIDI...**
+- **demo:** follow incoming audio level with `adc~` and `env~`
+	- make an `adc~`, note that like `dac~`, it will use your default audio device and assume you want it to be stereo (can be altered with arguments like `dac~`)
+	- incoming stream is audio data
+	- convert to volume levels with `env~`
+		- takes an incoming audio stream (could be a file or mic)
+		- outputs the envelope level _in decibels_ (show with number box)
+		- decibels are tricky to work with mathematically, so we want to convert the range to our usual 0-1 scale with `dbtorms`
+		- show RMS volume with number box
+	- _What is this number good for?_
+		- controlling the envelope of a synth
+		- controlling the pitch or timbre of a synth
+			- do some math to map an appropriate range for pitch, amplitude, modulation index, etc.
+	- other info from the incoming signal: `sigmund~`
+		- audio inlet, number outlets
+		- left outlet: pitch
+			- MIDI number, with decimals for pitch variation
+			- only runs if there is enough volume and pitch clarity
+			- filter out unpitched things with `select -1500`
+		- right outlet: identical to `env~`
 
-- control objects
-	- `metro`, `random`, math (addition)
-- audio objects
-	- `*~`, `line~` and the `$1` in the message, `vline~`
-- help menu
-	- right-click and select help
-	- ⌘E, select and copy useful bits into the patch
+## Intro to live DSP
 
-## A simple sequencer from "off-the-shelf" parts
+Digital signal processing. _Have a quick trigger finger on **cmd-.** or **ctrl-.** when playing with these!_
 
-- Review lesson 2 patch
-	- remember what `metro` does in the patch
-		- fires bang to two objects, one to control the envelope
-		- second sequence to randomly select a frequence
-- copy lesson 2 patch to a new patch for the sequencer
-	- keep the envelope parts
-	- remove the freq parts
-- how do we build a counter for a seqencer?
-	- requirements:
-		- step forward at regular intervals
-		- loop back to the beginning when it reaches the end of a sequence
-		- do something different at each step
-	- **Help > Browser > Pure Data > 2.control.examples > 05.counter**
-		- `float`
-			- `float` holds a number from it's right inlet, and sends out when it receives a bang to the hot inlet
-			- Float objects are so common, they can be abbreviated to just `f`.
-		- copy first example counter into working patch
-		- use modulo (`%`) to create the loop
-			- start with a small number
-- use `select` to pick a different action for each step
-	- note that we control the number of outlets on `select`
-	- show with bangs
-	- the extra outlet is for "none of the above"
-	- use midi note names instead of frequency numbers (Google "MIDI note table" or just remember that 60 is middle C)
-		- `mtof` will handle the conversion of midi to frequencies for `osc~`
-	- send frequency values over to `osc~` left (hot) inlet
-
-What else could we do with the sequencer we built?
-
-- change pitch
-- change volume
-- change tempo
-- change envelope
-- change timbre
-- stop completely?
-- use the same counter with a different `%` and a different `select` to create loops at different rates 🤯
-
-- a note on `counter`
-	- does a lot more than our counter
-	- built in to a Pd external
-	- install with the _Cyclone_ external (already included in Purr Data)
-		- Help > Find externals, search for Cyclone
-		- select the one for your platform
-		- now you can create `counter` objects
-
-## Amplitude Modulation
-
-- `osc~` is currently used in our patch to control the position of a speaker element
-	- it outputs a range of -1 to 1, and we're shaping that output with `*~` at two stages
-	- the last stage is the overall volume
-	- the one before that is applying the envelope
-- `osc~` can also be used to change the inputs or outputs of another oscillator
-- amplitude modulation occurs when we use one oscillator to control (modulate) the amplitude of another oscillator
-- **demo:** add amplitude modulation
-	- temporarily disconnect envelope (`vline~`)
-	- make a new `osc~` with a low number argument (2-5) and connect to the right inlet of `*~`
-		- low modulation frequencies create a tremolo effect
-	- we can affect the amount of the modulation by multiplying the output of the mod osc before we apply it to the carrier signal
-	- note the fun ring effects of higher mod freqs
-	- create sliders for mod freq and amounts
-	- bring back the envelope controller
-	- carrier sig => amplitude modulation => envelope => final volume => dac
-
-## Frequency Modulation
-
-Homework: Watch Rafael Hernandez's tutorial on FM Synthesis: <https://youtu.be/DgeTHuDSgC0>
+- Use `delwrite~` and `delread~` to create a basic digital delay (there are more powerful options, but this is a good start)
+- open the helpfile for `delread~` as an example
+- `delwrite~` stores incoming audio to a buffer (temporary quick-access storage)
+	- name of the delay buffer (could be whatever makes sense to you)
+	- number of ms to store in the buffer (_This is the longest delay possible with this particular buffer. It is not the actual delay time._)
+- `delread~` plays back from the buffer
+	- name of delay buffer
+	- number of ms to delay (_This is the actual delay we hear!_), delay time can be changed dynamically by sending a new number to the inlet!
+- multiple `delwrite~`s to the same buffer causes problems, but multiple `delread~`s does not.
+- **demo**: simple delay "pedal"
+	- copy the `delread~` helpfile to a new patch
+	- clean up the comments
+	- change the delay buffer name! (important, as the helpfile is still trying to write to that same buffer, or you could just close the helpfile)
+	- remove `sig~` and replace with input from `adc~`
+	- **before the next step:** Find the mute button for your speakers and/or get ready to kill DSP (cmd-.)
+	- remove snapshot and replace with output to `dac~`
+	- _How can we control this better so we can more elegantly (and programmatically) turn the delay line off or on?_
+		- scale `adc~` and/or `dac~` with `*~` to 1 or 0
+		- ramp up or down with `line~`
+- related objects:
+	- `delread4~` is more complicated but more powerful
+	- `delay~` is powerful and a little simpler than `delread4~`, but requires the cyclone extension (**Help > Find externals** and search for **cyclone**)
+	- `freeverb~` works similarly (actually, it's much simpler) to process audio live
