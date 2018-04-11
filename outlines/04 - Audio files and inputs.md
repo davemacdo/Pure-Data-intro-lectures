@@ -4,7 +4,7 @@ title: 4. Audio files and inputs
 
 # {{page.title}}
 
-New objects: `readsf~`, `key`, `adc~`,
+New objects: `readsf~`, `key`, `adc~`, `env~`, `dbtorms`, `sigmund~`, `delwrite~`, `delread~`
 
 Resource: [Freesound](https://freesound.org)
 
