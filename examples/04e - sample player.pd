@@ -1,0 +1,25 @@
+#N canvas 326 223 522 363 10;
+#X obj 39 251 dac~;
+#X msg 109 174 1;
+#X msg 109 199 0;
+#X obj 39 225 readsf~ 2;
+#X obj 80 252 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X msg 39 77 open ../media/bells-cluster.wav;
+#X obj 39 51 loadbang;
+#X text 271 75 <- Load file. (Change to only the file name without
+the dots and slashes if you have the audio file in the same folder
+as your Pd patch.);
+#X text 144 174 <- play after loading;
+#X text 144 199 <- stop playback;
+#X text 110 224 <- Unloads the file after playing and sends a bang
+from the right inlet when done. (See the bang object light up after
+playback.);
+#X connect 1 0 3 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 3 1 0 1;
+#X connect 3 2 5 0;
+#X connect 3 2 4 0;
+#X connect 5 0 3 0;
+#X connect 6 0 5 0;
